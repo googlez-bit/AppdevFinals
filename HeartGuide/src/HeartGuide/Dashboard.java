@@ -759,6 +759,14 @@ public class Dashboard extends JFrame {
         pnlBPBook.add(btnEditRecord);
         
         JButton btnRefresh = new JButton("Refresh");
+        btnRefresh.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		model = (DefaultTableModel)tblBPBook.getModel();
+		        model.setRowCount(0);
+                showRec();
+                System.out.println("Refreshed");
+        	}
+        });
         btnRefresh.setForeground(Color.BLACK);
         btnRefresh.setFont(new Font("Tahoma", Font.PLAIN, 14));
         btnRefresh.setFocusPainted(false);
@@ -1062,9 +1070,6 @@ public class Dashboard extends JFrame {
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MMMM, dd yyyy"); 
                 LocalDateTime now = LocalDateTime.now();
                 lblDate.setText("Date: " + dateFormat.format(now));
-                model = (DefaultTableModel)tblBPBook.getModel();
-		        model.setRowCount(0);
-                showRec();
                 loadInfo();
             }
         };
