@@ -764,7 +764,6 @@ public class Dashboard extends JFrame {
         		model = (DefaultTableModel)tblBPBook.getModel();
 		        model.setRowCount(0);
                 showRec();
-                System.out.println("Refreshed");
         	}
         });
         btnRefresh.setForeground(Color.BLACK);
@@ -785,6 +784,7 @@ public class Dashboard extends JFrame {
         lblDate.setBounds(717, 26, 168, 22);
         contentPane.add(lblDate);
         lblDate.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
         
         //Event listeners
         pnlDashboard.addMouseListener(new MouseAdapter() {
@@ -861,6 +861,7 @@ public class Dashboard extends JFrame {
         XYDataset dataset = createDataset();
         generateLineChart(dataset);
         generateBarChart();
+        forAlarm();
         this.setLocationRelativeTo(null);
         
         }
@@ -990,19 +991,19 @@ public class Dashboard extends JFrame {
 				int m = d;
 				if(x.equals("YES")) {
 				if(j== Hr && k== Mn ) {
-					NotificationAM notifAM = new NotificationAM();
+					NotificationAM notifAM = new NotificationAM(currentID);
 					notifAM.setCurrentid(currentID);
 					notifAM.setVisible(true);
 					timer.cancel();
 					
 				}else if(l== Hr && m == Mn) {
-					NotificationPM notifPM = new NotificationPM();
+					NotificationPM notifPM = new NotificationPM(currentID);
 					notifPM.setCurrentid(currentID);
-					notifPM.setVisible(true);
 					timer.cancel();
+					notifPM.setVisible(true);
 				}else{
-					
 				}
+				
 				}
 			}
 		};

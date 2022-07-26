@@ -26,6 +26,8 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.UIManager;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class NotificationAM extends JFrame {
 
@@ -39,8 +41,8 @@ public class NotificationAM extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NotificationAM frame = new NotificationAM();
-					frame.setVisible(true);
+					//NotificationAM frame = new NotificationAM();
+					//frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -51,7 +53,7 @@ public class NotificationAM extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public NotificationAM() {
+	public NotificationAM(int id) {
 		setUndecorated(true);
 		setResizable(false);
 		setType(Type.POPUP);
@@ -70,6 +72,13 @@ public class NotificationAM extends JFrame {
 		lblAMTime.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JButton btnAdd = new JButton("Add Record");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NewRecord newrecord = new NewRecord();
+				newrecord.setVisible(true);
+				dispose();
+			}
+		});
 		btnAdd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdd.setBounds(120, 127, 114, 26);
 		btnAdd.setForeground(Color.WHITE);
@@ -79,6 +88,11 @@ public class NotificationAM extends JFrame {
 		btnAdd.setBackground(new Color(210, 104, 110));
 		
 		JButton btnClose = new JButton("Close");
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		btnClose.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnClose.setBounds(244, 127, 86, 26);
 		btnClose.setForeground(Color.WHITE);
@@ -121,22 +135,20 @@ public class NotificationAM extends JFrame {
             System.out.println(e);
             }
 		contentPane.add(lblIcon);
-		display();
+		display(id);
 		this.setLocationRelativeTo(null);
 	}
-	public void display() {
+	public void display(int curID) {
 		try {
 		
             String AM="";
            
             Connection con = getConnection();
             PreparedStatement select = con.prepareStatement("Select morning_time from user_schedule where user_id = ?");
-            select.setInt(1,  currentID);
+            select.setInt(1,  curID);
             ResultSet rs= select.executeQuery();
-            while (rs.next()) {  
-            	
+            while (rs.next()) {
             	AM=rs.getString(1);
-            	  
               }         
             String hr=Character.toString(AM.charAt(0)).concat(Character.toString(AM.charAt(1)));
             String mn=Character.toString(AM.charAt(3)).concat(Character.toString(AM.charAt(4)));
